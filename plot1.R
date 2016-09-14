@@ -12,15 +12,13 @@
 ##      the years 1999, 2002, 2005, and 2008.
 
 # Read in the data
-#NEI <- readRDS("./data/summarySCC_PM25.rds")
+NEI <- readRDS("./data/summarySCC_PM25.rds")
+
+# sum Emissions from all sources
+TotalPm <- tapply(NEI$Emissions, NEI$year, sum)
 
 # Create plot
 png(file="plot1.png", width= 480, height = 480)
-
-plot(NEI$year, NEI$Emissions, xlab="Year", ylab="Emissions", ylim=c(0,12000))
+plot(names(TotalPm), TotalPm, type = "o", xlab = "Year", ylab = "PM2.5 Emissions", pch = 19, col = "blue")
 title(main="Total PM2.5 Emissions in the U.S.")
-model <- lm(Emissions~year, NEI)
-abline(model, col="red", lwd=2)
-
-
 dev.off()

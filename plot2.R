@@ -11,16 +11,12 @@
 ##      this question.
 
 # Read in the data and subset to Baltimore City
-#NEI <- readRDS("./data/summarySCC_PM25.rds")
+NEI <- readRDS("./data/summarySCC_PM25.rds")
 balt <- subset(NEI, fips == "24510")
+BaltEm <- tapply(balt$Emissions, balt$year, sum)
 
 # Create plot
 png(file="plot2.png", width= 480, height = 480)
-
-plot(balt$year, balt$Emissions, xlab="Year", ylab="Emissions")
-title(main="Total PM2.5 Emissions in Baltimore City, Maryland")
-model <- lm(Emissions~year, NEI)
-abline(model, col="red", lwd=2)
-
-
+plot(names(BaltEm), BaltEm, type = "o", xlab = "Year", ylab = "PM2.5 Emissions", pch = 19, col = "blue")
+title(main="Total PM2.5 Emissions in Baltimore City")
 dev.off()

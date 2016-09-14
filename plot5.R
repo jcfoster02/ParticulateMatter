@@ -9,20 +9,17 @@
 #   1999-2008 in Baltimore City?
 
 # Read in the data and subset to motor vehicle sources and Baltimore City
-#NEI <- readRDS("./data/summarySCC_PM25.rds")
-#SCC <- readRDS("./data/Source_Classification_Code.rds")
+NEI <- readRDS("./data/summarySCC_PM25.rds")
+SCC <- readRDS("./data/Source_Classification_Code.rds")
 subSCC <- subset(SCC, select=c(SCC, EI.Sector))
-table(subSCC$EI.Sector)
 vehicles <- subSCC[grep("Vehicles$", subSCC$EI.Sector), ]
 subNEI <- NEI[NEI$SCC %in% vehicles$SCC, ]
 balt <- subset(subNEI, fips == "24510")
+VehiclePm <- tapply(balt$Emissions, balt$year, sum)
 
-library(ggplot2)
 
 # Create plot
 png(file="plot5.png", width= 480, height = 480)
-
-g <- ggplot(balt, aes(year, Emissions))
-g + geom_point() + geom_smooth(method = "lm", se=FALSE) + labs(title="Emissions from Motor Vehicle Sources in Baltimore City") + labs(x="Year")
-
+plot(names(VehiclePm), VehiclePm, type = "o", xlab = "Year", ylab = "PM2.5 Emissions", pch = 19, col = "blue")
+title(main="Emissions from Vehicle Sources in Baltimore City") 
 dev.off()

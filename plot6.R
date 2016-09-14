@@ -28,5 +28,5 @@ library(ggplot2)
 # Create plot
 png(file="plot6.png", width= 480, height = 480)
 g <- ggplot(CityPm, aes(Year, Emissions))
-g + geom_line(color="blue") + facet_grid(.~City) + labs(title="Vehicle Emissions By City") + labs(x="Year")
+g + geom_line(color="green") + facet_grid(.~City) + labs(title="Vehicle Emissions By City") + labs(x="Year")
 dev.off()
